@@ -1,0 +1,46 @@
+interface Task {
+    id: number;
+    title: string;
+    status: "todo" | "in-progress" | "done";
+}
+
+function getTaskInfo(task: Task): string {
+    return `Task ${task.id}: ${task.title} - ${task.status}`;
+}
+
+function addTask(taskList: Task[], title: string): Task[] {
+    let newTask: Task = { id: taskList.length + 1, title: title, status: "todo" };
+    return [...taskList, newTask];
+}
+
+function changeTaskStatus(taskList: Task[], taskId: number, newStatus: "todo" | "in-progress" | "done"): Task[] {
+    const newList: Task[] = [];
+    let found = false;
+
+    for (let i = 0; i < taskList.length; i++) {
+        if (taskList[i].id === taskId) {
+            newList.push({ ...taskList[i], status: newStatus });
+            found = true;
+        } else {
+            newList.push(taskList[i]);
+        }
+    }
+    if (found) {
+        return newList
+    }
+    return taskList;
+}
+
+function listTasksByStatus(taskList: Task[], status: "todo" | "done" | "in-progress"): Task[] {
+    return taskList.filter(task => task.status === status);
+}
+
+function printTaskSummary(task: Task): void {
+    console.log(`ID: ${task.id}, Title: ${task.title}, Status: ${task.status}`);
+}
+
+function printAllTaskSummaries(taskList: Task[]): void {
+    for (const task of taskList) {
+        printTaskSummary(task);
+    }
+}
